@@ -1,0 +1,31 @@
+<main>
+  <header class="row">
+    <h5>undo-redo with 
+      <a href="https://github.com/nilsmehlhorn/ngrx-wieder">ngrx-wieder</a>
+    </h5>
+    <span style="flex: 1;"></span>
+    <button title="undo" [disabled]="disableUndo$ | async" (click)="undo()">&#11148;</button>
+    <button class="flip" title="redo" [disabled]="disableRedo$ | async" (click)="redo()">&#11148;</button>
+  </header>
+  <div class="row todo-in-row">
+    <input #in type="text" tab-index="1" placeholder="What's todo?"/>
+    <button (click)="add(in.value)">Add</button>
+  </div>
+  <div class="row todo-row" *ngFor="let t of todos$ | async">
+    <label [for]="'checkbox-' + t.id" [style.text-decoration]="t.checked ? 'line-through' : 'none'">
+      {{ t.text }}
+    </label>
+    <div class="actions">
+      <input type="checkbox" [id]="'checkbox-' + t.id" [checked]="t.checked" (change)="toggle(t)"/>
+      <span (click)="remove(t)" class="button-remove">&#x2718;</span>
+    </div>
+  </div>
+  <hr>
+	<label>Mood: {{ mood$ | async }}</label>
+  <br>
+  <input #range class="mood-slider" type="range" 
+    min="0" max="100" [value]="mood$ | async" 
+    (input)="moodInput(range.value)" (change)="moodChange()">
+  <br>
+  <small>Updates state while dragging, yet undo/redo will step based on where handle was dropped/picked up</small>
+</main>

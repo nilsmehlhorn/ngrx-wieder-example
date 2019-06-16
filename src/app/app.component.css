@@ -1,0 +1,57 @@
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+main {
+  max-width: 480px;
+  padding-top: 24px;
+}
+
+header {
+  margin-bottom: 32px;
+}
+
+button {
+  margin-left: 6px;
+}
+
+.row {
+  display: flex;
+}
+
+.flip {
+  -moz-transform:    scaleX(-1); /* Gecko */
+  -o-transform:      scaleX(-1); /* Opera */
+  -webkit-transform: scaleX(-1); /* Webkit */
+  transform:         scaleX(-1); /* Standard */
+}
+
+.todo-in-row {
+  margin: 8px 0;
+}
+
+.todo-row label {
+  flex: 1;
+  user-select: none;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  flex-basis: 10%;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.button-remove {
+  color: crimson;
+}
+
+input[type="range"]::-moz-range-progress {
+  background-color: lightblue; 
+}
+input[type="range"]::-moz-range-track {  
+  background-color: gray;
+}
