@@ -1,4 +1,4 @@
-import {Todo, id} from './todo'
+import {Todo, nextId} from './todo'
 
 export interface State {
   todos: Todo[]
@@ -9,9 +9,9 @@ export interface State {
 
 export const initial: State = {
   todos: [
-    {id: id(), text: 'Travel', checked: true},
-    {id: id(), text: 'Relax', checked: false},
-    {id: id(), text: 'Work', checked: false}
+    {id: nextId(), text: 'Travel', checked: true},
+    {id: nextId(), text: 'Relax', checked: false},
+    {id: nextId(), text: 'Work', checked: false}
   ],
   mood: 70,
   canUndo: false,

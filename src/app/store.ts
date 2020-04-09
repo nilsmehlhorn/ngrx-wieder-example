@@ -1,6 +1,6 @@
 
 import * as App from './app.state'
-import { appReducer } from './app.reducer';
+import { appReducer } from './on.reducer';
 
 export interface State {
   app: App.State

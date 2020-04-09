@@ -2,13 +2,20 @@ import * as App from './app.state'
 import {Actions, addTodo, toggleTodo, changeMood, removeTodo} from './app.actions'
 import {produce, PatchListener} from 'immer'
 import {undoRedo} from 'ngrx-wieder'
-import {id} from './todo'
+import {nextId} from './todo'
+
+const {wrapReducer} = undoRedo({
+  track: true,
+  mergeActionTypes: [
+    changeMood.type
+  ]
+})
 
 const reducer = (state, action: Actions, listener?: PatchListener) =>
   produce(state, next => {
     switch (action.type) {
       case addTodo.type:
-        next.todos.push({id: id(), text: action.text, checked: false})
+        next.todos.push({id: nextId(), text: action.text, checked: false})
         return
       case toggleTodo.type:
         const todo = next.todos.find(t => t.id === action.id)
@@ -25,12 +32,7 @@ const reducer = (state, action: Actions, listener?: PatchListener) =>
     }
 }, listener)
 
-const undoableReducer = undoRedo({
-  track: true,
-  mergeActionTypes: [
-    changeMood.type
-  ]
-})(reducer)
+const undoableReducer = wrapReducer(reducer)
 
 export function appReducer(state = App.initial, action: Actions) {
   return undoableReducer(state, action)
