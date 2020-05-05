@@ -1,11 +1,17 @@
 <main>
-  <header class="row">
-    <h5>undo-redo with 
-      <a href="https://github.com/nilsmehlhorn/ngrx-wieder">ngrx-wieder</a>
-    </h5>
-    <span style="flex: 1;"></span>
-    <button title="undo" [disabled]="disableUndo$ | async" (click)="undo()">&#11148;</button>
-    <button class="flip" title="redo" [disabled]="disableRedo$ | async" (click)="redo()">&#11148;</button>
+  <header>
+    <div class="row">
+      <h5>undo-redo with
+        <a href="https://github.com/nilsmehlhorn/ngrx-wieder">ngrx-wieder</a>
+      </h5>
+      <span style="flex: 1;"></span>
+      <button title="undo" [disabled]="disableUndo$ | async" (click)="undo()">&#11148;</button>
+      <button class="flip" title="redo" [disabled]="disableRedo$ | async" (click)="redo()">&#11148;</button>
+    </div>
+    <label for="activeDrop">Active List</label>
+    <select name="activeDrop" id="activeDrop" (change)="selectList($event.target.value)">
+      <option *ngFor="let list of lists$ | async"  [value]="list.id" [selected]="(activeList$ | async) == list">{{ list.name }}</option>
+    </select>
   </header>
   <div class="row todo-in-row">
     <input #in type="text" tab-index="1" placeholder="What's todo?"/>
@@ -23,8 +29,8 @@
   <hr>
 	<label>Mood: {{ mood$ | async }}</label>
   <br>
-  <input #range class="mood-slider" type="range" 
-    min="0" max="100" [value]="mood$ | async" 
+  <input #range class="mood-slider" type="range"
+    min="0" max="100" [value]="mood$ | async"
     (input)="moodInput(range.value)" (change)="moodChange()">
   <br>
   <small>Updates state while dragging, yet undo/redo will step based on where handle was dropped/picked up</small>

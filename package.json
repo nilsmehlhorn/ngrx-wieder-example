@@ -11,10 +11,11 @@
     "@angular/platform-browser-dynamic": "9.1.1",
     "@angular/router": "9.1.1",
     "@ngrx/store": "9.1.0",
+    "@ngrx/store-devtools": "9.1.0",
     "core-js": "2.6.5",
     "immer": "^6.0.3",
     "marx-css": "^3.0.7",
-    "ngrx-wieder": "^3.0.0",
+    "ngrx-wieder": "^3.0.1",
     "rxjs": "6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

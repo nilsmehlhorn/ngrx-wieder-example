@@ -4,12 +4,13 @@
 }
 
 main {
-  max-width: 480px;
   padding-top: 24px;
 }
 
 header {
-  margin-bottom: 32px;
+  margin-bottom: 64px;
+  background: lightgray;
+  padding: 16px;
 }
 
 button {

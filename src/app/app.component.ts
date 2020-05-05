@@ -1,19 +1,29 @@
-import {Component} from '@angular/core'
-import {Store} from '@ngrx/store'
+import {ChangeDetectionStrategy, Component} from '@angular/core'
+import {select, Store} from '@ngrx/store'
 import {State} from './store'
-import {addTodo, changeMood, removeTodo, toggleTodo} from './app.actions'
+import {addTodo, changeMood, removeTodo, selectList, toggleTodo} from './app.actions'
 import {Todo} from './todo'
+import {selectActiveList} from './app.state'
+import {map} from 'rxjs/operators'
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
 
-  readonly mood$ = this.store.select(state => state.app.mood)
+  readonly lists$ = this.store.select(state => state.app.lists)
+      .pipe(map(lists => Object.values(lists)))
 
-  readonly todos$ = this.store.select(state => state.app.todos)
+  readonly activeList$ = this.store.select(selectActiveList)
+
+  readonly mood$ = this.store.select(selectActiveList)
+      .pipe(select(list => list.mood))
+
+  readonly todos$ = this.store.select(selectActiveList)
+      .pipe(select(list => list.todos))
 
   readonly disableUndo$ = this.store.select(state => !state.app.canUndo)
 
@@ -35,7 +45,7 @@ export class AppComponent {
   }
 
   moodChange() {
-    this.store.dispatch({ type: 'BREAK_MERGE' })
+    this.store.dispatch({type: 'BREAK_MERGE'})
   }
 
   moodInput(mood: number) {
@@ -48,5 +58,9 @@ export class AppComponent {
 
   redo(): void {
     this.store.dispatch({type: 'REDO'})
+  }
+
+  selectList(id: string): void {
+    this.store.dispatch(selectList({id}))
   }
 }
