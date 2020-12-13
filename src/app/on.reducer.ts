@@ -1,6 +1,6 @@
 import * as App from './app.state'
 import {Actions, addTodo, changeMood, removeTodo, selectList, toggleTodo} from './app.actions'
-import {undoRedo} from 'ngrx-wieder'
+import {undoRedo, produceOn} from 'ngrx-wieder'
 import {nextId} from './todo'
 import {on} from '@ngrx/store'
 import {activeList} from './app.state'
@@ -37,9 +37,8 @@ const reducer = createSegmentedUndoRedoReducer(App.initial, state => state.activ
       activeList(state).mood = mood
       return state
     }),
-    on(selectList, (state, {id}) => {
+    produceOn(selectList, (state, {id}) => {
       state.activeList = id
-      return state
     })
 )
 
