@@ -1,7 +1,5 @@
-import {Todo, nextId} from './todo'
-import {createSelector} from '@ngrx/store'
-import * as Root from './store'
-
+import { initialUndoRedoState, UndoRedoState } from 'ngrx-wieder'
+import { nextId, Todo } from './todo'
 export interface TodoList {
   id: string
   name: string
@@ -9,11 +7,9 @@ export interface TodoList {
   mood: number
 }
 
-export interface State {
+export interface State extends UndoRedoState {
   activeList: string
   lists: { [id: string]: TodoList }
-  canUndo: boolean
-  canRedo: boolean
 }
 
 const listOne = {
@@ -43,15 +39,6 @@ export const initial: State = {
     [listTwo.id]: listTwo
   },
   activeList: listOne.id,
-  canUndo: false,
-  canRedo: false
+  ...initialUndoRedoState
 }
 
-
-export const activeList = (state: State): TodoList => state.lists[state.activeList]
-
-export const selectActiveList = createSelector(
-    ({app}: Root.State) => app.activeList,
-    ({app}: Root.State) => app.lists,
-    (active, lists) => lists[active]
-)

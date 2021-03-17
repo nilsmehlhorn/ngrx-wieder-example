@@ -3,10 +3,9 @@ import {Actions, addTodo, toggleTodo, changeMood, removeTodo, selectList} from '
 import {produce, PatchListener} from 'immer'
 import {undoRedo} from 'ngrx-wieder'
 import {nextId} from './todo'
-import {activeList} from './app.state'
+import { getActiveList } from './app.selectors'
 
 const {wrapReducer} = undoRedo({
-  track: true,
   allowedActionTypes: [
     addTodo.type,
     toggleTodo.type,
@@ -22,18 +21,18 @@ const reducer = (state, action: Actions, listener?: PatchListener) =>
   produce(state, next => {
     switch (action.type) {
       case addTodo.type:
-        activeList(next).todos.push({id: nextId(), text: action.text, checked: false})
+        getActiveList(next).todos.push({id: nextId(), text: action.text, checked: false})
         return
       case toggleTodo.type:
-        const todo = activeList(next).todos.find(t => t.id === action.id)
+        const todo = getActiveList(next).todos.find(t => t.id === action.id)
         todo.checked = !todo.checked
         return
       case removeTodo.type:
-        const list = activeList(next)
+        const list = getActiveList(next)
         list.todos.splice(list.todos.findIndex(t => t.id === action.id), 1)
         return
       case changeMood.type:
-        activeList(next).mood = action.mood
+        getActiveList(next).mood = action.mood
         return
       case selectList.type:
         next.activeList = action.id

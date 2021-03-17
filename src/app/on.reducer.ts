@@ -1,12 +1,11 @@
+import { on } from '@ngrx/store'
+import { produceOn, undoRedo } from 'ngrx-wieder'
+import { Actions, addTodo, changeMood, removeTodo, selectList, toggleTodo } from './app.actions'
+import { getActiveList } from './app.selectors'
 import * as App from './app.state'
-import {Actions, addTodo, changeMood, removeTodo, selectList, toggleTodo} from './app.actions'
-import {undoRedo, produceOn} from 'ngrx-wieder'
-import {nextId} from './todo'
-import {on} from '@ngrx/store'
-import {activeList} from './app.state'
+import { nextId } from './todo'
 
 const {createSegmentedUndoRedoReducer} = undoRedo({
-  track: true,
   allowedActionTypes: [
     addTodo.type,
     toggleTodo.type,
@@ -20,21 +19,21 @@ const {createSegmentedUndoRedoReducer} = undoRedo({
 
 const reducer = createSegmentedUndoRedoReducer(App.initial, state => state.activeList,
     on(addTodo, (state, {text}) => {
-      activeList(state).todos.push({id: nextId(), text, checked: false})
+      getActiveList(state).todos.push({id: nextId(), text, checked: false})
       return state
     }),
     on(toggleTodo, (state, {id}) => {
-      const todo = activeList(state).todos.find(t => t.id === id)
+      const todo = getActiveList(state).todos.find(t => t.id === id)
       todo.checked = !todo.checked
       return state
     }),
     on(removeTodo, (state, {id}) => {
-      const list = activeList(state)
+      const list = getActiveList(state)
       list.todos.splice(list.todos.findIndex(t => t.id === id), 1)
       return state
     }),
     on(changeMood, (state, {mood}) => {
-      activeList(state).mood = mood
+      getActiveList(state).mood = mood
       return state
     }),
     produceOn(selectList, (state, {id}) => {
