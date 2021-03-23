@@ -15,7 +15,7 @@
     "core-js": "2.6.5",
     "immer": "^9.0.1",
     "marx-css": "^3.0.7",
-    "ngrx-wieder": "^5.0.0",
+    "ngrx-wieder": "^6.0.0",
     "rxjs": "6.6.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
