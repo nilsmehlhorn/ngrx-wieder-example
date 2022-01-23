@@ -34,11 +34,11 @@ export class AppComponent {
     .pipe(select((list) => list.todos));
 
   readonly disableUndo$ = this.store
-    .select(fromTodo.selectCanUndo)
+    .select(fromTodo.selectCanUndo())
     .pipe(map((canUndo) => !canUndo));
 
   readonly disableRedo$ = this.store
-    .select(fromTodo.selectCanRedo)
+    .select(fromTodo.selectCanRedo())
     .pipe(map((canRedo) => !canRedo));
 
   constructor(private readonly store: Store<State>) {}
