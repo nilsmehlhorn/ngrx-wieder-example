@@ -27,7 +27,7 @@
       <option
         *ngFor="let list of lists$ | async"
         [value]="list.id"
-        [selected]="(activeList$ | async) == list"
+        [selected]="(activeList$ | async) === list"
       >
         {{ list.name }}
       </option>
