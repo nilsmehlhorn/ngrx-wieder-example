@@ -12,7 +12,7 @@ import {reducers} from './store'
     BrowserModule,
     FormsModule, 
     StoreModule.forRoot(reducers),
-    StoreDevtoolsModule.instrument()
+    StoreDevtoolsModule.instrument({connectInZone: true})
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent]
